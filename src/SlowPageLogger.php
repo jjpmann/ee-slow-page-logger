@@ -5,6 +5,13 @@ namespace EE\SlowPageLogger;
 class SlowPageLogger
 {
 
+    public $name            = 'Slow Page Logger';
+    public $version         = '0.0.4';
+    public $description     = 'Logs page benchmarks.';
+    public $settings_exist  = 'y';
+    public $docs_url        = '';
+    public $settings        = array();
+
     protected $EE;
 
     protected $settings;

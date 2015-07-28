@@ -1,17 +1,9 @@
 <?php
 
-require 'BaseExtension.php';
 
-class Vim_custom_ext extends BaseExtension
+class Slow_page_logger_ext extends EE\SlowPageLogger\SlowPageLogger
 {
 
-    public $name            = 'Vim Custom';
-    public $version         = '0.0.4';
-    public $description     = 'Logs page benchmarks.';
-    public $settings_exist  = 'y';
-    public $docs_url        = '';
-    public $settings        = array();
-    
     protected $settings_default = array(
         'execution_time'    => 1,
         'memory_usage'      => 20,
