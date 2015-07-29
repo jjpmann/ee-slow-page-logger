@@ -19,18 +19,11 @@ class Extension extends BaseExtension
         'memory_usage'      => 20,
         'total_queries'     => 60
     );
-    protected $package      = '';
 
     protected $hooks        = array(
-        'sessions_start'    => 'sessions_start_hook',
         'sessions_end'      => 'sessions_end_hook',
     );
 
-    public function __construct($settings = '')
-    {
-        $this->package = __CLASS__;
-        //parent::__construct($settings);
-    }
 
     /**
      * Settings
@@ -56,13 +49,6 @@ class Extension extends BaseExtension
         //$this->overloadOutput();
     }
 
-    /**
-     * hook
-     */
-    public function sessions_start_hook($sess)
-    {
-
-    }
 
     /**
      * hook
