@@ -63,8 +63,7 @@ class SlowPageLogger
         $message = "{$this->package} :: {$key} ({$this->data[$key]} > {$this->settings[$key]}) :: ";
         $message .= '<pre>' . print_r($this->profile, true) . '</pre>';
 
-        echo $message;
-        
+        //echo $message;
 
         $this->EE->load->library('logger');
         $this->EE->load->library('user_agent');
