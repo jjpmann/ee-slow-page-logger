@@ -24,7 +24,6 @@ class Extension extends BaseExtension
         'sessions_end'      => 'sessions_end_hook',
     );
 
-
     /**
      * Settings
      *
@@ -46,17 +45,26 @@ class Extension extends BaseExtension
      */
     public function sessions_end_hook($sess)
     {
-        //$this->overloadOutput();
+        $this->overloadOutput();
     }
 
 
     /**
-     * hook
+     * Overload the output to run SPL
      */
     public function overloadOutput()
     {
-        require_once PATH_THIRD . '/vim_custom/libraries/Vim_Output.php';
-        ee()->output = new Vim_Output;
-        ee()->output->enableSlowPageLogger($this->settings);
+        $this->output = $this->getOutput();
+        $this->output->enableSlowPageLogger($this->settings);
+    }
+
+    private function getOutput()
+    {
+        return new Output($this->getSPL());
+    }
+
+    private function getSPL()
+    {
+        return new SlowPageLogger(ee(), $this->settings);
     }
 }
