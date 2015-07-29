@@ -48,14 +48,12 @@ class Extension extends BaseExtension
         $this->overloadOutput();
     }
 
-
     /**
      * Overload the output to run SPL
      */
     public function overloadOutput()
     {
-        $this->output = $this->getOutput();
-        $this->output->enableSlowPageLogger($this->settings);
+        ee()->output = $this->getOutput();
     }
 
     private function getOutput()

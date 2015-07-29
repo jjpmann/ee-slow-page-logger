@@ -20,8 +20,6 @@ class Output extends \EE_Output
     public function __construct(SPL $spl)
     {
         parent::__construct();
-
-        $EE =& get_instance();
         $this->spl = $spl;
     }
 
@@ -31,19 +29,8 @@ class Output extends \EE_Output
         // normal Output Display
         parent::_display($output);
 
-
-        if ($this->settings) {
-            $EE =& get_instance();
-            
-            $this->spl->test();
-            //(new SlowPageLogger($EE, $this->settings))->run();
-            
-        }
+        $this->spl->run();
         
     }
 
-    public function enableSlowPageLogger($settings)
-    {
-        $this->settings = $settings;
-    }
 }
