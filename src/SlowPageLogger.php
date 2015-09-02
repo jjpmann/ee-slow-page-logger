@@ -4,14 +4,13 @@ namespace EE\SlowPageLogger;
 
 class SlowPageLogger
 {
-
     protected $EE;
 
     protected $settings;
 
     protected $data;
 
-    protected $_available_sections = array(
+    protected $_available_sections = [
         'Benchmarks',
         //'get',
         'MemoryUsage',
@@ -21,11 +20,11 @@ class SlowPageLogger
         'Queries',
         //'http_headers',
         //'session_data'
-    );
+    ];
 
     protected $package = 'SlowPageLogger';
 
-    protected $profile = array();
+    protected $profile = [];
 
     public function __construct($EE, $settings)
     {
@@ -42,26 +41,23 @@ class SlowPageLogger
             $this->{$func}();
         }
 
-
         foreach ($this->data as $key => $value) {
             if (isset($this->settings[$key]) && $value > $this->settings[$key]) {
                 $this->_log($key);
                 break;
             }
         }
-
     }
 
     /**
-    * Log to the developer log if the setting is turned on
-    *
-    * @return void
-    */
+     * Log to the developer log if the setting is turned on.
+     *
+     * @return void
+     */
     protected function _log($key)
     {
-
         $message = "{$this->package} :: {$key} ({$this->data[$key]} > {$this->settings[$key]}) :: ";
-        $message .= '<pre>' . print_r($this->profile, true) . '</pre>';
+        $message .= '<pre>'.print_r($this->profile, true).'</pre>';
 
         //echo $message;
 
@@ -72,19 +68,19 @@ class SlowPageLogger
     }
 
     /**
-     * Compile Queries
+     * Compile Queries.
      *
-     * @return  array
+     * @return array
      */
     protected function _compileBenchmarks()
     {
-        $BM =& $this->EE->benchmark;
+        $BM = &$this->EE->benchmark;
 
-        $profile = array();
+        $profile = [];
         foreach ($BM->marker as $key => $val) {
             // We match the "end" marker so that the list ends
             // up in the order that it was defined
-            if (preg_match("/(.+?)_end/i", $key, $match)) {
+            if (preg_match('/(.+?)_end/i', $key, $match)) {
                 if (isset($BM->marker[$match[1].'_end']) and isset($BM->marker[$match[1].'_start'])) {
                     $profile[$match[1]] = $BM->elapsed_time($match[1].'_start', $key);
                 }
@@ -97,14 +93,13 @@ class SlowPageLogger
     }
 
     /**
-     * Compile Queries
+     * Compile Queries.
      *
-     * @return  array
+     * @return array
      */
     protected function _compileQueries()
     {
-
-        $dbs = array();
+        $dbs = [];
 
         // Let's determine which databases are currently connected to
         foreach (get_object_vars($this->EE) as $CI_object) {
@@ -113,32 +108,29 @@ class SlowPageLogger
             }
         }
 
-        $profile = array();
+        $profile = [];
 
         foreach ($dbs as $db) {
             $profile[$db->database] = count($db->queries) - 1;
         }
-        
+
         $this->data['total_queries'] = $profile[$db->database];
 
         $this->profile['queries'] = $profile;
     }
 
-
     /**
-     * Compile memory usage
+     * Compile memory usage.
      *
      * Display total used memory
      *
-     * @return  string
+     * @return string
      */
     protected function _compileMemoryUsage()
     {
-
-
         if (function_exists('memory_get_usage') && ($usage = memory_get_usage()) != '') {
-            $profile['raw']     = $usage;
-            $profile['format']  = number_format($usage).' bytes';
+            $profile['raw'] = $usage;
+            $profile['format'] = number_format($usage).' bytes';
         }
 
         $this->data['memory_usage'] = $profile['raw'];
