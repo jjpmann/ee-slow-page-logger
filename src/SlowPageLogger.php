@@ -41,6 +41,8 @@ class SlowPageLogger
             $this->{$func}();
         }
 
+        $this->_getPage();
+
         foreach ($this->data as $key => $value) {
             if (isset($this->settings[$key]) && $value > $this->settings[$key]) {
                 $this->_log($key);
@@ -65,6 +67,16 @@ class SlowPageLogger
         $this->EE->load->library('user_agent');
 
         $this->EE->logger->developer($message);
+    }
+
+    /**
+     * grab page uri from ee class
+     *
+     * @return void
+     **/
+    protected function _getPage()
+    {        
+        $this->profile['page'] = $this->EE->uri->uri_string;
     }
 
     /**
