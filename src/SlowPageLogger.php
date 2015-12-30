@@ -70,12 +70,12 @@ class SlowPageLogger
     }
 
     /**
-     * grab page uri from ee class
+     * grab page uri from ee class.
      *
      * @return void
      **/
     protected function _getPage()
-    {        
+    {
         $this->profile['page'] = $this->EE->uri->uri_string;
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EE\SlowPageLogger;
 
 use EE\SlowPageLogger\SlowPageLogger as SPL;
